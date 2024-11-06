@@ -32,19 +32,14 @@ function Login() {
     event.preventDefault();
 
     /* hit the login API */
-    // define the request body
     const body = {
       email,
       password,
     };
 
-    // hit the login API with the data
     const result = await login(body);
     if (result.success) {
-      // set token to global state
       dispatch(setToken(result.data.token));
-
-      // redirect to home
       navigate({ to: "/" });
       return;
     }
@@ -54,16 +49,21 @@ function Login() {
 
   return (
     <>
-      <Row className="vh-100">
+      <Row className="vh-100 m-0">
         <Col
           md={9}
           className="d-flex align-items-center justify-content-center p-0"
-          style={{ marginTop: "0", paddingTop: "0" }}
         >
           <img
             src="/src/assets/images/image2.png"
             alt="Pict"
-            style={{ width: "100%", height: "80%", margin: "0", padding: "0" }}
+            style={{
+              width: "100%",
+              height: "100vh", // Full viewport height
+              objectFit: "cover",
+              margin: 0,
+              padding: 0,
+            }}
           />
         </Col>
         <Col
