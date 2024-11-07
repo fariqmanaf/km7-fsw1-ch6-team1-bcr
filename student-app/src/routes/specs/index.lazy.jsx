@@ -1,41 +1,36 @@
-import { createLazyFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
-import { getSpecs } from "../service/spec";
-import SpecItem from "../components/Spec/specItem";
+import { createLazyFileRoute, Link } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Table from 'react-bootstrap/Table'
+import Button from 'react-bootstrap/Button'
+import { getSpecs } from '../../service/spec'
+import SpecItem from '../../components/Spec/specItem'
 
-export const Route = createLazyFileRoute("/specs")({
+export const Route = createLazyFileRoute('/specs/')({
   component: Spec,
-});
+})
 
 function Spec() {
-  const { token } = useSelector((state) => state.auth);
-  const [specs, setSpecs] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const { token } = useSelector((state) => state.auth)
+  const [specs, setSpecs] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const getSpecData = async () => {
-      setIsLoading(true);
-      const result = await getSpecs();
-      console.log("API Result:", result); // Log response to see data
+      setIsLoading(true)
+      const result = await getSpecs()
       if (result.success && result.data) {
-        setSpecs(result.data); // Set specs if data is received
-      } else {
-        console.error("Failed to fetch specs data:", result.message);
+        setSpecs(result.data)
       }
-      setIsLoading(false);
-    };
+      setIsLoading(false)
+    }
 
     if (token) {
-      getSpecData();
-    } else {
-      console.warn("Token not found, please log in."); // Log if no token is found
+      getSpecData()
     }
-  }, [token]);
+  }, [token])
 
   if (!token) {
     return (
@@ -44,7 +39,7 @@ function Spec() {
           <h1 className="text-center">Please login first to get spec data!</h1>
         </Col>
       </Row>
-    );
+    )
   }
 
   if (isLoading) {
@@ -52,7 +47,7 @@ function Spec() {
       <Row className="mt-4">
         <h1>Loading...</h1>
       </Row>
-    );
+    )
   }
 
   return (
@@ -70,7 +65,7 @@ function Spec() {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Number</th>
+              <th>Id Spec</th>
               <th>Spec</th>
               <th>Options</th>
             </tr>
@@ -83,7 +78,7 @@ function Spec() {
         </Table>
       )}
     </Row>
-  );
+  )
 }
 
-export default Spec;
+export default Spec

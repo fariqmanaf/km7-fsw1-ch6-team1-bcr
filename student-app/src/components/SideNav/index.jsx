@@ -1,15 +1,10 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-// import Nav from "react-bootstrap/Nav";
-// import Navbar from "react-bootstrap/Navbar";
-// import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { setToken, setUser } from "../../redux/slices/auth";
 import { profile } from "../../service/auth";
-// import Button from "react-bootstrap/Button";
-// import Form from "react-bootstrap/Form";
 import PropTypes from "prop-types";
 
 const SideNavigationBar = () => {
