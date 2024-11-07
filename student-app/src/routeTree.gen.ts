@@ -21,6 +21,7 @@ const RegisterLazyImport = createFileRoute('/register')()
 const ProfileLazyImport = createFileRoute('/profile')()
 const LoginLazyImport = createFileRoute('/login')()
 const IndexLazyImport = createFileRoute('/')()
+const ManufacturesIndexLazyImport = createFileRoute('/manufactures/')()
 const SpecsCreateLazyImport = createFileRoute('/specs/create')()
 const SpecsIdLazyImport = createFileRoute('/specs/$id')()
 const SpecsEditIdLazyImport = createFileRoute('/specs/edit/$id')()
@@ -56,6 +57,14 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const ManufacturesIndexLazyRoute = ManufacturesIndexLazyImport.update({
+  id: '/manufactures/',
+  path: '/manufactures/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/manufactures/index.lazy').then((d) => d.Route),
+)
 
 const SpecsCreateLazyRoute = SpecsCreateLazyImport.update({
   id: '/create',
@@ -130,6 +139,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SpecsCreateLazyImport
       parentRoute: typeof SpecsLazyImport
     }
+    '/manufactures/': {
+      id: '/manufactures/'
+      path: '/manufactures'
+      fullPath: '/manufactures'
+      preLoaderRoute: typeof ManufacturesIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/specs/edit/$id': {
       id: '/specs/edit/$id'
       path: '/edit/$id'
@@ -166,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/specs': typeof SpecsLazyRouteWithChildren
   '/specs/$id': typeof SpecsIdLazyRoute
   '/specs/create': typeof SpecsCreateLazyRoute
+  '/manufactures': typeof ManufacturesIndexLazyRoute
   '/specs/edit/$id': typeof SpecsEditIdLazyRoute
 }
 
@@ -177,6 +194,7 @@ export interface FileRoutesByTo {
   '/specs': typeof SpecsLazyRouteWithChildren
   '/specs/$id': typeof SpecsIdLazyRoute
   '/specs/create': typeof SpecsCreateLazyRoute
+  '/manufactures': typeof ManufacturesIndexLazyRoute
   '/specs/edit/$id': typeof SpecsEditIdLazyRoute
 }
 
@@ -189,6 +207,7 @@ export interface FileRoutesById {
   '/specs': typeof SpecsLazyRouteWithChildren
   '/specs/$id': typeof SpecsIdLazyRoute
   '/specs/create': typeof SpecsCreateLazyRoute
+  '/manufactures/': typeof ManufacturesIndexLazyRoute
   '/specs/edit/$id': typeof SpecsEditIdLazyRoute
 }
 
@@ -202,6 +221,7 @@ export interface FileRouteTypes {
     | '/specs'
     | '/specs/$id'
     | '/specs/create'
+    | '/manufactures'
     | '/specs/edit/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -212,6 +232,7 @@ export interface FileRouteTypes {
     | '/specs'
     | '/specs/$id'
     | '/specs/create'
+    | '/manufactures'
     | '/specs/edit/$id'
   id:
     | '__root__'
@@ -222,6 +243,7 @@ export interface FileRouteTypes {
     | '/specs'
     | '/specs/$id'
     | '/specs/create'
+    | '/manufactures/'
     | '/specs/edit/$id'
   fileRoutesById: FileRoutesById
 }
@@ -232,6 +254,7 @@ export interface RootRouteChildren {
   ProfileLazyRoute: typeof ProfileLazyRoute
   RegisterLazyRoute: typeof RegisterLazyRoute
   SpecsLazyRoute: typeof SpecsLazyRouteWithChildren
+  ManufacturesIndexLazyRoute: typeof ManufacturesIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -240,6 +263,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileLazyRoute: ProfileLazyRoute,
   RegisterLazyRoute: RegisterLazyRoute,
   SpecsLazyRoute: SpecsLazyRouteWithChildren,
+  ManufacturesIndexLazyRoute: ManufacturesIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -256,7 +280,8 @@ export const routeTree = rootRoute
         "/login",
         "/profile",
         "/register",
-        "/specs"
+        "/specs",
+        "/manufactures/"
       ]
     },
     "/": {
@@ -286,6 +311,9 @@ export const routeTree = rootRoute
     "/specs/create": {
       "filePath": "specs/create.lazy.jsx",
       "parent": "/specs"
+    },
+    "/manufactures/": {
+      "filePath": "manufactures/index.lazy.jsx"
     },
     "/specs/edit/$id": {
       "filePath": "specs/edit/$id.lazy.jsx",
