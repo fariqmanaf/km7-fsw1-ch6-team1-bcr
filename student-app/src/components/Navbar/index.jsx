@@ -19,25 +19,19 @@ const NavigationBar = () => {
 
   useEffect(() => {
     const getProfile = async () => {
-      // fetch get profile
       const result = await profile();
       if (result.success) {
-        // set the user state here
         dispatch(setUser(result.data));
         return;
       }
 
-      // If not success
-      // delete the local storage here
       dispatch(setUser(null));
       dispatch(setToken(null));
 
-      // redirect to login
       navigate({ to: "/login" });
     };
 
     if (token) {
-      // hit api auth get profile and pass the token to the function
       getProfile();
     }
     if (!token) {
@@ -48,11 +42,9 @@ const NavigationBar = () => {
   const logout = (event) => {
     event.preventDefault();
 
-    // delete the local storage here
     dispatch(setUser(null));
     dispatch(setToken(null));
 
-    // redirect to login
     navigate({ to: "/login" });
   };
 
