@@ -76,7 +76,7 @@ const SideNavigationBar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/spec" className="nav-link py-3 border-bottom" title="Spec">
+          <Link to="/specs" className="nav-link py-3 border-bottom" title="Spec">
             <Image
               src="/src/assets/images/Spec.png"
               alt="Spec Icon"
