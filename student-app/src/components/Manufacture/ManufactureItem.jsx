@@ -29,7 +29,7 @@ const ManufactureItem = ({ manufacture }) => {
 };
 
 ManufactureItem.propTypes = {
-  spec: PropTypes.object.isRequired,
+  manufacture: PropTypes.object.isRequired,
 };
 
 export default ManufactureItem;

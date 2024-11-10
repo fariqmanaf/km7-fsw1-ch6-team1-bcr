@@ -16,13 +16,13 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
-const SpecsLazyImport = createFileRoute('/specs')()
 const RegisterLazyImport = createFileRoute('/register')()
 const ProfileLazyImport = createFileRoute('/profile')()
 const LoginLazyImport = createFileRoute('/login')()
 const IndexLazyImport = createFileRoute('/')()
 const SpecsIndexLazyImport = createFileRoute('/specs/')()
 const ManufacturesIndexLazyImport = createFileRoute('/manufactures/')()
+const CarsIndexLazyImport = createFileRoute('/cars/')()
 const SpecsCreateLazyImport = createFileRoute('/specs/create')()
 const SpecsIdLazyImport = createFileRoute('/specs/$id')()
 const SpecsEditIdLazyImport = createFileRoute('/specs/edit/$id')()
@@ -53,6 +53,12 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
+const SpecsIndexLazyRoute = SpecsIndexLazyImport.update({
+  id: '/specs/',
+  path: '/specs/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/specs/index.lazy').then((d) => d.Route))
+
 const ManufacturesIndexLazyRoute = ManufacturesIndexLazyImport.update({
   id: '/manufactures/',
   path: '/manufactures/',
@@ -60,11 +66,12 @@ const ManufacturesIndexLazyRoute = ManufacturesIndexLazyImport.update({
 } as any).lazy(() =>
   import('./routes/manufactures/index.lazy').then((d) => d.Route),
 )
-const SpecsIndexLazyRoute = SpecsIndexLazyImport.update({
-  id: '/specs/',
-  path: '/specs/',
+
+const CarsIndexLazyRoute = CarsIndexLazyImport.update({
+  id: '/cars/',
+  path: '/cars/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/specs/index.lazy').then((d) => d.Route))
+} as any).lazy(() => import('./routes/cars/index.lazy').then((d) => d.Route))
 
 const SpecsCreateLazyRoute = SpecsCreateLazyImport.update({
   id: '/specs/create',
@@ -132,11 +139,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SpecsCreateLazyImport
       parentRoute: typeof rootRoute
     }
-    '/specs/': {
-      id: '/specs/'
-      path: '/specs'
-      fullPath: '/specs'
-      preLoaderRoute: typeof SpecsIndexLazyImport
+    '/cars/': {
+      id: '/cars/'
+      path: '/cars'
+      fullPath: '/cars'
+      preLoaderRoute: typeof CarsIndexLazyImport
       parentRoute: typeof rootRoute
     }
     '/manufactures/': {
@@ -144,6 +151,13 @@ declare module '@tanstack/react-router' {
       path: '/manufactures'
       fullPath: '/manufactures'
       preLoaderRoute: typeof ManufacturesIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/specs/': {
+      id: '/specs/'
+      path: '/specs'
+      fullPath: '/specs'
+      preLoaderRoute: typeof SpecsIndexLazyImport
       parentRoute: typeof rootRoute
     }
     '/specs/edit/$id': {
@@ -165,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterLazyRoute
   '/specs/$id': typeof SpecsIdLazyRoute
   '/specs/create': typeof SpecsCreateLazyRoute
+  '/cars': typeof CarsIndexLazyRoute
   '/manufactures': typeof ManufacturesIndexLazyRoute
   '/specs': typeof SpecsIndexLazyRoute
   '/specs/edit/$id': typeof SpecsEditIdLazyRoute
@@ -177,6 +192,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterLazyRoute
   '/specs/$id': typeof SpecsIdLazyRoute
   '/specs/create': typeof SpecsCreateLazyRoute
+  '/cars': typeof CarsIndexLazyRoute
   '/manufactures': typeof ManufacturesIndexLazyRoute
   '/specs': typeof SpecsIndexLazyRoute
   '/specs/edit/$id': typeof SpecsEditIdLazyRoute
@@ -190,6 +206,7 @@ export interface FileRoutesById {
   '/register': typeof RegisterLazyRoute
   '/specs/$id': typeof SpecsIdLazyRoute
   '/specs/create': typeof SpecsCreateLazyRoute
+  '/cars/': typeof CarsIndexLazyRoute
   '/manufactures/': typeof ManufacturesIndexLazyRoute
   '/specs/': typeof SpecsIndexLazyRoute
   '/specs/edit/$id': typeof SpecsEditIdLazyRoute
@@ -204,6 +221,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/specs/$id'
     | '/specs/create'
+    | '/cars'
     | '/manufactures'
     | '/specs'
     | '/specs/edit/$id'
@@ -215,6 +233,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/specs/$id'
     | '/specs/create'
+    | '/cars'
     | '/manufactures'
     | '/specs'
     | '/specs/edit/$id'
@@ -226,6 +245,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/specs/$id'
     | '/specs/create'
+    | '/cars/'
     | '/manufactures/'
     | '/specs/'
     | '/specs/edit/$id'
@@ -237,10 +257,10 @@ export interface RootRouteChildren {
   LoginLazyRoute: typeof LoginLazyRoute
   ProfileLazyRoute: typeof ProfileLazyRoute
   RegisterLazyRoute: typeof RegisterLazyRoute
-  SpecsLazyRoute: typeof SpecsLazyRouteWithChildren
-  ManufacturesIndexLazyRoute: typeof ManufacturesIndexLazyRoute
   SpecsIdLazyRoute: typeof SpecsIdLazyRoute
   SpecsCreateLazyRoute: typeof SpecsCreateLazyRoute
+  CarsIndexLazyRoute: typeof CarsIndexLazyRoute
+  ManufacturesIndexLazyRoute: typeof ManufacturesIndexLazyRoute
   SpecsIndexLazyRoute: typeof SpecsIndexLazyRoute
   SpecsEditIdLazyRoute: typeof SpecsEditIdLazyRoute
 }
@@ -250,10 +270,10 @@ const rootRouteChildren: RootRouteChildren = {
   LoginLazyRoute: LoginLazyRoute,
   ProfileLazyRoute: ProfileLazyRoute,
   RegisterLazyRoute: RegisterLazyRoute,
-  SpecsLazyRoute: SpecsLazyRouteWithChildren,
-  ManufacturesIndexLazyRoute: ManufacturesIndexLazyRoute,
   SpecsIdLazyRoute: SpecsIdLazyRoute,
   SpecsCreateLazyRoute: SpecsCreateLazyRoute,
+  CarsIndexLazyRoute: CarsIndexLazyRoute,
+  ManufacturesIndexLazyRoute: ManufacturesIndexLazyRoute,
   SpecsIndexLazyRoute: SpecsIndexLazyRoute,
   SpecsEditIdLazyRoute: SpecsEditIdLazyRoute,
 }
@@ -272,10 +292,10 @@ export const routeTree = rootRoute
         "/login",
         "/profile",
         "/register",
-        "/specs",
-        "/manufactures/"
         "/specs/$id",
         "/specs/create",
+        "/cars/",
+        "/manufactures/",
         "/specs/",
         "/specs/edit/$id"
       ]
@@ -298,11 +318,14 @@ export const routeTree = rootRoute
     "/specs/create": {
       "filePath": "specs/create.lazy.jsx"
     },
-    "/specs/": {
-      "filePath": "specs/index.lazy.jsx"
+    "/cars/": {
+      "filePath": "cars/index.lazy.jsx"
     },
     "/manufactures/": {
       "filePath": "manufactures/index.lazy.jsx"
+    },
+    "/specs/": {
+      "filePath": "specs/index.lazy.jsx"
     },
     "/specs/edit/$id": {
       "filePath": "specs/edit/$id.lazy.jsx"
