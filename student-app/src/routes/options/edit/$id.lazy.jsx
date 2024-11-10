@@ -5,24 +5,24 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { getDetailSpec, updateSpec } from "../../../service/spec";
+import { getDetailOption, updateOption } from "../../../service/options";
 import { toast } from "react-toastify";
 
-export const Route = createLazyFileRoute("/specs/edit/$id")({
-  component: EditSpec,
+export const Route = createLazyFileRoute("/options/edit/$id")({
+  component: EditOption,
 });
 
-function EditSpec() {
+function EditOption() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
-  const [spec, setSpec] = useState("");
+  const [option, setOption] = useState("");
   const [isNotFound, setIsNotFound] = useState(false);
 
   useEffect(() => {
-    const getDetailSpecData = async (id) => {
-      const result = await getDetailSpec(id);
+    const getDetailOptionData = async (id) => {
+      const result = await getDetailOption(id);
       if (result?.success) {
-        setSpec(result.data?.spec);
+        setOption(result.data?.option);
         setIsNotFound(false);
       } else {
         setIsNotFound(true);
@@ -30,23 +30,23 @@ function EditSpec() {
     };
 
     if (id) {
-      getDetailSpecData(id);
+      getDetailOptionData(id);
     }
   }, [id]);
 
   if (isNotFound) {
-    navigate({ to: "/specs" });
+    navigate({ to: "/options" });
     return;
   }
 
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    const request = { spec };
-    const result = await updateSpec(id, request);
+    const request = { option };
+    const result = await updateOption(id, request);
     if (result?.success) {
-      toast.success("Spec updated successfully!");
-      navigate({ to: "/specs" });
+      toast.success("Option updated successfully!");
+      navigate({ to: "/options" });
     } else {
       toast.error(result?.message);
     }
@@ -56,26 +56,26 @@ function EditSpec() {
     <Row className="mt-5">
       <Col md={{ span: 6, offset: 3 }}>
         <Card>
-          <Card.Header className="text-center">Edit Spec</Card.Header>
+          <Card.Header className="text-center">Edit option</Card.Header>
           <Card.Body>
             <Form onSubmit={onSubmit}>
-              <Form.Group as={Row} className="mb-3" controlId="spec">
+              <Form.Group as={Row} className="mb-3" controlId="option">
                 <Form.Label column sm={3}>
-                  Spec
+                  option
                 </Form.Label>
                 <Col sm="9">
                   <Form.Control
                     type="text"
-                    placeholder="Spec"
+                    placeholder="option"
                     required
-                    value={spec}
-                    onChange={(event) => setSpec(event.target.value)}
+                    value={option}
+                    onChange={(event) => setOption(event.target.value)}
                   />
                 </Col>
               </Form.Group>
               <div className="d-grid gap-2">
                 <Button type="submit" variant="primary">
-                  Update Spec
+                  Update option
                 </Button>
               </div>
             </Form>

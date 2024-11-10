@@ -5,30 +5,30 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import { getSpecs } from "../../service/spec";
-import SpecItem from "../../components/Spec/specItem";
+import { getOptions } from "../../service/options";
+import OptionItem from "../../components/Option/OptionItem";
 
-export const Route = createLazyFileRoute("/specs/")({
-  component: Spec,
+export const Route = createLazyFileRoute("/options/")({
+  component: Option,
 });
 
-function Spec() {
+function Option() {
   const { token, user } = useSelector((state) => state.auth);
-  const [specs, setSpecs] = useState([]);
+  const [options, setOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const getSpecData = async () => {
+    const getOptionData = async () => {
       setIsLoading(true);
-      const result = await getSpecs();
+      const result = await getOptions();
       if (result.success && result.data) {
-        setSpecs(result.data);
+        setOptions(result.data);
       }
       setIsLoading(false);
     };
 
     if (token) {
-      getSpecData();
+      getOptionData();
     }
   }, [token]);
 
@@ -54,25 +54,25 @@ function Spec() {
     <Row className="mt-4">
       <Row>
         <Col className="d-flex justify-content-end mb-3">
-          <Button as={Link} href={`/specs/create`} variant="primary">
-            Create Spec
+          <Button as={Link} href={`/options/create`} variant="primary">
+            Create Option
           </Button>
         </Col>
       </Row>
-      {specs.length === 0 ? (
+      {options.length === 0 ? (
         <h1>Spec data is not found!</h1>
       ) : (
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Id Spec</th>
-              <th>Spec</th>
+              <th>Id Option</th>
+              <th>Option</th>
               <th>Options</th>
             </tr>
           </thead>
           <tbody>
-            {specs.map((spec) => (
-              <SpecItem user={user} spec={spec} key={spec?.id} />
+            {options.map((option) => (
+              <OptionItem user={user} option={option} key={option?.id} />
             ))}
           </tbody>
         </Table>
@@ -81,4 +81,4 @@ function Spec() {
   );
 }
 
-export default Spec;
+export default Option;

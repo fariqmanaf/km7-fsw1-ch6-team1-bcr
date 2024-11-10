@@ -85,7 +85,7 @@ const SideNavigationBar = () => {
         </li>
         <li>
           <Link
-            to="/option"
+            to="/options"
             className="nav-link py-3 border-bottom"
             title="Option"
           >

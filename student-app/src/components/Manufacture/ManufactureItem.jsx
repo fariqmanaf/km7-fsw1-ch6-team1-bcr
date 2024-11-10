@@ -10,7 +10,7 @@ const ManufactureItem = ({ manufacture }) => {
       <td>
         <Button
           as={Link}
-          href={`/manufacture/edit/${manufacture?.id}`}
+          href={`/manufactures/edit/${manufacture?.id}`}
           variant="warning"
           className="me-2"
         >
@@ -18,7 +18,7 @@ const ManufactureItem = ({ manufacture }) => {
         </Button>
         <Button
           as={Link}
-          href={`/manufacture/${manufacture?.id}`}
+          href={`/manufactures/${manufacture?.id}`}
           variant="danger"
         >
           Delete
