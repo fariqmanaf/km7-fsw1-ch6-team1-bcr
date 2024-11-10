@@ -46,7 +46,7 @@ const SideNavigationBar = () => {
       </Link>
       <ul className="nav nav-pills nav-flush flex-column mb-auto text-center">
         <li>
-          <Link to="/car" className="nav-link py-3 border-bottom" title="Car">
+          <Link to="/cars" className="nav-link py-3 border-bottom" title="Car">
             <Image
               src="/src/assets/images/Car.png"
               alt="Car Icon"
