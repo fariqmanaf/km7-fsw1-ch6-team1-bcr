@@ -2,23 +2,23 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import { Link } from "@tanstack/react-router";
 
-const SpecItem = ({ spec, user }) => {
+const OptionItem = ({ option, user }) => {
   return (
     <tr>
-      <td>{spec?.id}</td>
-      <td>{spec?.spec}</td>
+      <td>{option?.id}</td>
+      <td>{option?.option}</td>
       <td>
         {user.role_id === 1 && (
           <>
             <Button
               as={Link}
-              href={`/specs/edit/${spec?.id}`}
+              href={`/options/edit/${option?.id}`}
               variant="warning"
               className="me-2"
             >
               Edit
             </Button>
-            <Button as={Link} href={`/specs/${spec?.id}`} variant="danger">
+            <Button as={Link} href={`/options/${option?.id}`} variant="danger">
               Delete
             </Button>
           </>
@@ -29,8 +29,8 @@ const SpecItem = ({ spec, user }) => {
   );
 };
 
-SpecItem.propTypes = {
-  spec: PropTypes.object.isRequired,
+OptionItem.propTypes = {
+  option: PropTypes.object.isRequired,
 };
 
-export default SpecItem;
+export default OptionItem;
