@@ -56,7 +56,7 @@ function Manufacture() {
   return (
     <Row className="mt-4">
       <Row>
-        <Col className="d-flex justify-content-end mb-3">
+        <Col className="d-flex justify-content-end mb-3 me-5">
           <Button as={Link} href={`/manufactures/create`} variant="primary">
             Create Manufacture
           </Button>
@@ -65,23 +65,25 @@ function Manufacture() {
       {manufactures.length === 0 ? (
         <h1>Manufacture data is not found!</h1>
       ) : (
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Number</th>
-              <th>Manufacture</th>
-              <th>Options</th>
-            </tr>
-          </thead>
-          <tbody>
-            {manufactures.map((manufacture) => (
-              <ManufactureItem
-                manufacture={manufacture}
-                key={manufacture?.id}
-              />
-            ))}
-          </tbody>
-        </Table>
+        <Col md={5} lg={11} className="mx-auto">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th className="text-center">ID</th>
+                <th className="text-center">Manufacture</th>
+                <th className="text-center">Options</th>
+              </tr>
+            </thead>
+            <tbody className="text-center">
+              {manufactures.map((manufacture) => (
+                <ManufactureItem
+                  manufacture={manufacture}
+                  key={manufacture?.id}
+                />
+              ))}
+            </tbody>
+          </Table>
+        </Col>
       )}
     </Row>
   );
