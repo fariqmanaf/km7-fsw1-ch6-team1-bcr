@@ -5,26 +5,25 @@ import { Link } from "@tanstack/react-router";
 const OptionItem = ({ option, user }) => {
   return (
     <tr>
-      <td>{option?.id}</td>
+      <td style={{ textAlign: "center" }}>{option?.id}</td>
       <td>{option?.option}</td>
-      <td>
-        {user.role_id === 1 && (
-          <>
+      {user && user?.role_id === 1 && (
+        <>
+          <td style={{ textAlign: "center" }}>
             <Button
               as={Link}
               href={`/options/edit/${option?.id}`}
               variant="warning"
               className="me-2"
             >
-              Edit
+              Update
             </Button>
             <Button as={Link} href={`/options/${option?.id}`} variant="danger">
               Delete
             </Button>
-          </>
-        )}
-        {user.role_id !== 1 && <></>}
-      </td>
+          </td>
+        </>
+      )}
     </tr>
   );
 };

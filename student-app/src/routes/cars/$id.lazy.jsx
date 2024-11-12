@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
 import { getDetailCar } from "../../service/cars";
-import { toast } from "react-toastify";
+//import { toast } from "react-toastify";
 import ReactLoading from "react-loading";
 import { IoArrowBackCircle } from "react-icons/io5";
 import { FaArrowRight } from "react-icons/fa";
@@ -18,9 +18,14 @@ import {
 import gsap from "gsap";
 import { getManufactures } from "../../service/manufactures";
 import { setSuccess } from "../../redux/slices/success";
+import Protected from "../../components/Auth/Protected";
 
 export const Route = createLazyFileRoute("/cars/$id")({
-    component: DetailsCar,
+  component: () => (
+    <Protected roles={[1]}>
+      <DetailsCar />
+    </Protected>
+  ),
 });
 
 function DetailsCar() {
