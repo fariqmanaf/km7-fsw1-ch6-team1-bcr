@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
-import { getCars } from "../../service/cars";
+import { getCars, deleteCar } from "../../service/cars";
 import { IoCarSharp } from "react-icons/io5";
 import ReactLoading from "react-loading";
 import gsap from "gsap";
@@ -14,13 +14,16 @@ import {
     setDetailsCar,
     setAvailabilityState,
 } from "../../redux/slices/car_details";
+import { setSuccess } from "../../redux/slices/success";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import { toast } from "react-toastify";
 
 export const Route = createLazyFileRoute("/cars/")({
     component: Cars,
 });
 
 function Cars() {
-
     const dispatch = useDispatch();
 
     dispatch(setDetailsCar(null));
@@ -30,6 +33,7 @@ function Cars() {
     const containerRef = useRef(null);
 
     const token = useSelector((state) => state.auth.token);
+    const success = useSelector((state) => state.success.success);
 
     const [cars, setCars] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
@@ -78,6 +82,10 @@ function Cars() {
         }
     }, [selectedTransmission, cars]);
 
+    if (success) {
+        dispatch(setSuccess(false));
+    }
+
     if (!token) {
         return (
             <Row
@@ -114,6 +122,34 @@ function Cars() {
             setSelectedTransmission(transmission);
         };
     }
+
+    const onDelete = (id) => {
+        confirmAlert({
+            title: "Confirm to Delete",
+            message: "Are you sure to do this?",
+            buttons: [
+                {
+                    label: "Yes",
+                    onClick: async () => {
+                        const result = await deleteCar(id);
+                        if (result.success) {
+                            const newCars = cars.filter((car) => car.id !== id);
+                            setCars(newCars);
+                            setFilteredCars(newCars);
+                            toast.success("Car deleted successfully!");
+                            return;
+                        }
+
+                        toast.error("Failed to delete car!");
+                    },
+                },
+                {
+                    label: "No",
+                    onClick: () => "",
+                },
+            ],
+        });
+    };
 
     return (
         <Row className="mt-5" ref={containerRef}>
@@ -269,9 +305,11 @@ function Cars() {
                                             <Col className="d-flex gap-2">
                                                 {user?.role_id === 1 && (
                                                     <Button
-                                                        as={Link}
-                                                        href={`/cars/${car.id}`}
                                                         className="bg-transparent text-danger border border-danger fw-semibold d-flex justify-content-center align-content-center"
+                                                        onClick={() =>
+                                                            onDelete(car.id)
+                                                        }
+                                                        id={car.id}
                                                         style={{
                                                             height: "2.5rem",
                                                             transition:

@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import ReactLoading from "react-loading";
 import { IoArrowBackCircle } from "react-icons/io5";
 import gsap from "gsap";
-import { getDetailCar, updateCar } from "../../service/cars";
+import { createCar } from "../../service/cars";
 import { getOptions } from "../../service/options";
 import { getSpecs } from "../../service/spec";
 import { MultiSelect } from "react-multi-select-component";
@@ -33,7 +33,9 @@ function NextCreateComponent() {
     const formRef = useRef(null);
     const imageRef = useRef(null);
     const fileTypes = ["JPG", "PNG", "GIF"];
+
     const user = useSelector((state) => state.auth.user);
+    const success = useSelector((state) => state.success.success);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -53,13 +55,13 @@ function NextCreateComponent() {
 
     const [file, setFile] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [imageURL, setImageURL] = useState(null);
+    const [imageURL, setImageURL] = useState(
+        carDetailsState?.url_image || null
+    );
     const [options, setOptions] = useState([]);
     const [specs, setSpecs] = useState([]);
-    const [userOptions, setuserOptions] = useState(optionsState || []);
     const [formOptions, setFormOptions] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState(optionsState || []);
-    const [userSpecs, setUserSpecs] = useState(specsState || []);
     const [formSpecs, setFormSpecs] = useState([]);
     const [selectedSpecs, setSelectedSpecs] = useState([]);
     const maxSelection = 3;
@@ -123,15 +125,10 @@ function NextCreateComponent() {
                 value: spec.id,
             }))
         );
-        if (userSpecs) {
-            setSelectedSpecs(
-                userSpecs.map((spec) => ({
-                    label: spec.spec_details?.spec,
-                    value: spec.spec_details?.id,
-                }))
-            );
+        if (specsState !== null) {
+            setSelectedSpecs(specsState);
         }
-    }, [specs, userSpecs]);
+    }, [specs]);
 
     useEffect(() => {
         setFormOptions(
@@ -140,42 +137,16 @@ function NextCreateComponent() {
                 value: option.id,
             }))
         );
-        if (userOptions) {
-            setSelectedOptions(
-                userOptions.map((option) => ({
-                    label: option.option_details?.option,
-                    value: option.option_details?.id,
-                }))
-            );
+        if (optionsState !== null) {
+            setSelectedOptions(optionsState);
         }
-    }, [options, userOptions]);
+    }, [options]);
 
     useEffect(() => {
-        const getDetailCarData = async (id) => {
-            setIsLoading(true);
-            const result = await getDetailCar(id);
-            if (result?.success) {
-                {
-                    if (modelsState === null) {
-                        dispatch(setModelsState(result.data?.models));
-                    } else {
-                        dispatch(setModelsState(modelsState));
-                    }
-                }
-                setuserOptions(result.data?.options);
-                setUserSpecs(result.data?.specs);
-                setImageURL(result.data?.car_details[0]?.image);
-                setIsLoading(false);
-            } else {
-                toast.error(result.message);
-                setIsLoading(false);
-            }
-        };
-
-        if (id) {
-            getDetailCarData(id);
+        if (success) {
+            navigate({ to: `/cars` });
         }
-    }, [id]);
+    }, [success]);
 
     if (!token) {
         return (
@@ -210,8 +181,14 @@ function NextCreateComponent() {
 
     function onClickBack() {
         dispatch(setModelsState(modelsState));
-        dispatch(setOptionsState(userOptions));
-        dispatch(setSpecsState(userSpecs));
+        dispatch(setOptionsState(selectedOptions));
+        dispatch(setSpecsState(selectedSpecs));
+        dispatch(
+            setDetailsCar({
+                ...carDetailsState,
+                url_image: imageURL,
+            })
+        );
         navigate({ to: `/cars/create` });
     }
 
@@ -255,26 +232,25 @@ function NextCreateComponent() {
         formData.append("availableAt", availabilityState.available_at);
         formData.append("available", availabilityState.available);
 
-        const updateCarData = async () => {
+        const createCarData = async () => {
             setIsLoading(true);
-            const result = await updateCar(id, formData);
-            if (result?.success) {
-                dispatch(setSuccess(true));
+            const result = await createCar(formData);
+            if (result?.success === true) {
                 setIsLoading(false);
                 dispatch(setModelsState(null));
                 dispatch(setOptionsState(null));
                 dispatch(setSpecsState(null));
                 dispatch(setDetailsCar(null));
                 dispatch(setAvailabilityState(null));
-                localStorage.removeItem("carId");
-                navigate({ to: `/cars/${id}` });
+                toast.success("Your Car Data Has Been Created!");
+                dispatch(setSuccess(true));
             } else {
-                toast.error(result.message);
+                toast.error(result?.message);
                 setIsLoading(false);
             }
         };
 
-        updateCarData();
+        createCarData();
     };
 
     const handleChangeOptions = (selected) => {
@@ -368,7 +344,7 @@ function NextCreateComponent() {
                     className="d-flex gap-2 flex-column"
                     ref={formRef}
                 >
-                    <h3 className="mb-4 text-center fw-bold">Car Details</h3>
+                    <h3 className="mb-4 text-center fw-bold">Create Cars</h3>
 
                     <Form.Group
                         controlId="availability"
@@ -463,7 +439,7 @@ function NextCreateComponent() {
                             className="w-100 mt-2"
                             onClick={onClickForm}
                         >
-                            Update
+                            Create
                         </Button>
                     )}
                 </Form>

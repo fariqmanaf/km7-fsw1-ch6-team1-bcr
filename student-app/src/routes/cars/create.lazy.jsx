@@ -56,7 +56,7 @@ function CreateCars() {
     const [carDetails, setCarDetails] = useState(
         previousDetails === null ? [] : previousDetails
     );
-    const [imageURL, setImageURL] = useState("");
+    const [imageURL, setImageURL] = useState(previousDetails?.url_image || "");
 
     useEffect(() => {
         const getManufactureData = async () => {
@@ -237,7 +237,7 @@ function CreateCars() {
                             <Form.Control
                                 type="date"
                                 defaultValue={availability?.available_at || ""}
-                                disabled={user.role_id === 2}
+                                disabled={user?.role_id === 2}
                                 onChange={(event) =>
                                     setAvailability({
                                         ...availability,
@@ -252,7 +252,7 @@ function CreateCars() {
                                 type="text"
                                 placeholder="Rp"
                                 defaultValue={availability.rent_perday || ""}
-                                disabled={user.role_id === 2}
+                                disabled={user?.role_id === 2}
                                 onChange={(event) =>
                                     setAvailability({
                                         ...availability,
@@ -271,7 +271,7 @@ function CreateCars() {
                             <Form.Label>Capacity</Form.Label>
                             <Form.Control
                                 type="number"
-                                disabled={user.role_id === 2}
+                                disabled={user?.role_id === 2}
                                 defaultValue={carDetails.capacity || 0}
                                 onChange={(event) =>
                                     setCarDetails({
@@ -285,7 +285,7 @@ function CreateCars() {
                             <Form.Label className="">Plate</Form.Label>
                             <Form.Control
                                 type="text"
-                                disabled={user.role_id === 2}
+                                disabled={user?.role_id === 2}
                                 placeholder="Your Plate"
                                 defaultValue={carDetails.plate || ""}
                                 onChange={(event) =>
@@ -299,8 +299,7 @@ function CreateCars() {
                         <div style={{ width: "40%" }}>
                             <Form.Label className="">Transmission</Form.Label>
                             <Form.Select
-                                defaultValue={carDetails.transmission || ""}
-                                disabled={user.role_id === 2}
+                                disabled={user?.role_id === 2}
                                 onChange={(event) =>
                                     setCarDetails({
                                         ...carDetails,
@@ -308,6 +307,9 @@ function CreateCars() {
                                     })
                                 }
                             >
+                                <option disabled selected>
+                                    {carDetails.transmission || "Select Transmission"}
+                                </option>
                                 <option value="Manual">Manual</option>
                                 <option value="Automatic">Automatic</option>
                             </Form.Select>
@@ -321,7 +323,7 @@ function CreateCars() {
                         <div style={{ width: "30%" }}>
                             <Form.Label>Year</Form.Label>
                             <Form.Select
-                                disabled={user.role_id === 2}
+                                disabled={user?.role_id === 2}
                                 onChange={(event) => {
                                     setCarDetails({
                                         ...carDetails,
@@ -342,7 +344,7 @@ function CreateCars() {
                         <div style={{ width: "70%" }}>
                             <Form.Label>Manufactures</Form.Label>
                             <Form.Select
-                                disabled={user.role_id === 2}
+                                disabled={user?.role_id === 2}
                                 onChange={(event) => {
                                     setCarDetails({
                                         ...carDetails,
@@ -374,7 +376,7 @@ function CreateCars() {
                         <Form.Control
                             as="textarea"
                             rows={2}
-                            disabled={user.role_id === 2}
+                            disabled={user?.role_id === 2}
                             style={{ fontSize: "0.9rem" }}
                             defaultValue={carDetails.description || ""}
                             placeholder="Enter a detailed description here"

@@ -363,7 +363,6 @@ function DetailsCar() {
                         <div style={{ width: "40%" }}>
                             <Form.Label className="">Transmission</Form.Label>
                             <Form.Select
-                                defaultValue={carDetails.transmission || ""}
                                 disabled={user?.role_id === 2}
                                 onChange={(event) =>
                                     setCarDetails({
@@ -372,6 +371,9 @@ function DetailsCar() {
                                     })
                                 }
                             >
+                                <option disabled selected>
+                                    {carDetails.transmission || "Select Transmission"}
+                                </option>
                                 <option value="Manual">Manual</option>
                                 <option value="Automatic">Automatic</option>
                             </Form.Select>
