@@ -70,7 +70,7 @@ function SpecDetail() {
           onClick: async () => {
             const result = await deleteSpec(id);
             if (result?.success) {
-              navigate({ to: "/specs" });
+              navigate({ to: "/spec" });
               return;
             }
 
@@ -90,6 +90,7 @@ function SpecDetail() {
       <Col className="offset-md-3">
         <Card>
           <Card.Body>
+
             <Card.Title>{spec?.name}</Card.Title>
             <Card.Text>{spec?.description}</Card.Text>
             <div className="d-grid gap-2">
