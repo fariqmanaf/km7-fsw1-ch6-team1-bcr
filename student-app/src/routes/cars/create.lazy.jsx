@@ -16,9 +16,14 @@ import {
 } from "../../redux/slices/car_details";
 import gsap from "gsap";
 import { getManufactures } from "../../service/manufactures";
+import Protected from "../../components/Auth/Protected";
 
 export const Route = createLazyFileRoute("/cars/create")({
-    component: CreateCars,
+  component: () => (
+    <Protected roles={[1]}>
+      <CreateCars />
+    </Protected>
+  ),
 });
 
 function CreateCars() {

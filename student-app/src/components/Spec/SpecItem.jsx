@@ -5,26 +5,25 @@ import { Link } from "@tanstack/react-router";
 const SpecItem = ({ spec, user }) => {
   return (
     <tr>
-      <td>{spec?.id}</td>
+      <td style={{ textAlign: "center" }}>{spec?.id}</td>
       <td>{spec?.spec}</td>
-      <td>
-        {user.role_id === 1 && (
-          <>
+      { user?.role_id === 1 && (
+        <>
+          <td style={{ textAlign: "center" }}>
             <Button
               as={Link}
               href={`/specs/edit/${spec?.id}`}
               variant="warning"
               className="me-2"
             >
-              Edit
+              Update
             </Button>
             <Button as={Link} href={`/specs/${spec?.id}`} variant="danger">
               Delete
             </Button>
-          </>
-        )}
-        {user.role_id !== 1 && <></>}
-      </td>
+          </td>
+        </>
+      )}
     </tr>
   );
 };

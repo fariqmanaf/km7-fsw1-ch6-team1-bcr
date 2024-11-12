@@ -1,4 +1,4 @@
-import { createLazyFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -7,9 +7,16 @@ import Button from "react-bootstrap/Button";
 import { deleteoption, getDetailOption } from "../../service/options";
 import { toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert";
+import ReactLoading from "react-loading";
+import { IoArrowBackCircle } from "react-icons/io5";
+import Protected from "../../components/Auth/Protected";
 
 export const Route = createLazyFileRoute("/options/$id")({
-  component: OptionDetail,
+  component: () => (
+    <Protected roles={[1]}>
+      <OptionDetail />
+    </Protected>
+  ),
 });
 
 function OptionDetail() {
@@ -40,11 +47,17 @@ function OptionDetail() {
 
   if (isLoading) {
     return (
-      <Row className="mt-5">
-        <Col>
-          <h1 className="text-center">Loading...</h1>
-        </Col>
-      </Row>
+      <div
+        style={{ height: "90vh" }}
+        className="d-flex justify-content-center align-items-center"
+      >
+        <ReactLoading
+          type={"spin"}
+          color={"#0d6efd"}
+          height={"5%"}
+          width={"5%"}
+        />
+      </div>
     );
   }
 
@@ -85,27 +98,44 @@ function OptionDetail() {
     });
   };
 
+  function onClickBack() {
+    navigate({ to: "/specs" });
+  }
+
   return (
-    <Row className="mt-5">
-      <Col className="offset-md-3">
-        <Card>
-          <Card.Body>
-            <Card.Title>Detail </Card.Title>
-            <Card.Text>Option: {option?.option}</Card.Text>
-            <div className="d-grid gap-2">
-              <Button as={Link} href={`/options/edit/${id}`} variant="primary">
-                Edit Option
-              </Button>
-            </div>
-            <div className="d-grid gap-2">
-              <Button onClick={onDelete} variant="danger">
-                Delete Option
-              </Button>
-            </div>
-          </Card.Body>
-        </Card>
-      </Col>
-      <Col md={3}></Col>
+    <Row
+      className="d-flex flex justify-content-center align-items-center"
+      style={{ height: "50vh" }}
+    >
+      <IoArrowBackCircle
+        className="position-absolute"
+        role="button"
+        onClick={onClickBack}
+        style={{
+          color: "#0d6efd",
+          width: "7vw",
+          height: "7vh",
+          top: "6rem",
+          left: "7rem",
+        }}
+      />
+      <Row className="mt-5">
+        <Col className="offset-md-3">
+          <Card>
+            <Card.Body>
+              <h4 className="mb-4 text-center fw-bold">Delete Options</h4>
+              <Card.Title>Detail </Card.Title>
+              <Card.Text>Option: {option?.option}</Card.Text>
+              <div className="d-grid gap-2">
+                <Button onClick={onDelete} variant="danger">
+                  Delete Option
+                </Button>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={3}></Col>
+      </Row>
     </Row>
   );
 }
