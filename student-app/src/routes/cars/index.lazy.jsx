@@ -1,6 +1,6 @@
 import { createLazyFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState, useRef, useLayoutEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
@@ -8,12 +8,27 @@ import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import { getCars } from "../../service/cars";
 import { IoCarSharp } from "react-icons/io5";
+import ReactLoading from "react-loading";
+import gsap from "gsap";
+import {
+    setDetailsCar,
+    setAvailabilityState,
+} from "../../redux/slices/car_details";
 
 export const Route = createLazyFileRoute("/cars/")({
     component: Cars,
 });
 
 function Cars() {
+
+    const dispatch = useDispatch();
+
+    dispatch(setDetailsCar(null));
+    dispatch(setAvailabilityState(null));
+
+    const cardRef = useRef(null);
+    const containerRef = useRef(null);
+
     const token = useSelector((state) => state.auth.token);
 
     const [cars, setCars] = useState([]);
@@ -21,6 +36,19 @@ function Cars() {
     const [isLoading, setIsLoading] = useState(true);
     const user = useSelector((state) => state.auth.user);
     const [selectedTransmission, setSelectedTransmission] = useState("all");
+
+    useLayoutEffect(() => {
+        gsap.context(() => {
+            gsap.set(cardRef.current, { opacity: 0, y: 50 });
+
+            gsap.to(cardRef.current, {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power2.out",
+            });
+        }, containerRef);
+    }, [isLoading]);
 
     useEffect(() => {
         const getCarsData = async () => {
@@ -52,11 +80,14 @@ function Cars() {
 
     if (!token) {
         return (
-            <Row className="mt-4">
+            <Row
+                style={{ height: "90vh" }}
+                className="d-flex justify-content-center align-items-center"
+            >
                 <Col>
-                    <h1 className="text-center">
+                    <h4 className="text-center">
                         Please login first to get cars data!
-                    </h1>
+                    </h4>
                 </Col>
             </Row>
         );
@@ -64,9 +95,17 @@ function Cars() {
 
     if (isLoading) {
         return (
-            <Row className="mt-4">
-                <h1>Loading...</h1>
-            </Row>
+            <div
+                style={{ height: "90vh" }}
+                className="d-flex justify-content-center align-items-center"
+            >
+                <ReactLoading
+                    type={"spin"}
+                    color={"#0d6efd"}
+                    height={"5%"}
+                    width={"5%"}
+                />
+            </div>
         );
     }
 
@@ -77,13 +116,13 @@ function Cars() {
     }
 
     return (
-        <Row className="mt-5">
+        <Row className="mt-5" ref={containerRef}>
             <Row>
                 <Col className="d-flex justify-content-between px-5 mb-4">
                     <Row>
                         <h3>List Cars</h3>
                     </Row>
-                    {user.role_id === 1 && (
+                    {user?.role_id === 1 && (
                         <Button
                             as={Link}
                             href={`/cars/create`}
@@ -162,13 +201,13 @@ function Cars() {
                     Automatic
                 </Button>
             </Col>
-            <Row className="px-5">
+            <Row className="px-5" ref={cardRef}>
                 <Col>
                     <Row>
                         {filteredCars.length !== 0 &&
                             filteredCars.map((car) => (
                                 <Col key={car.id} md={4}>
-                                    <Card role="button">
+                                    <Card>
                                         <Card.Body
                                             className="d-flex flex-column p-4"
                                             style={{ fontSize: "0.9rem" }}
@@ -184,9 +223,19 @@ function Cars() {
                                                     className="align-self-center object-fit-cover"
                                                 />
                                             </div>
-                                            <Card.Text className="fw-bold fs-6">
+                                            <Card.Text className="fw-bold w-100">
                                                 {car?.manufactures?.name}{" "}
-                                                {car?.models?.model}
+                                                {car?.models?.model}{" "}
+                                                {car?.availability
+                                                    ?.available === true ? (
+                                                    <span className="text-success fw-semibold ms-2">
+                                                        (Available)
+                                                    </span>
+                                                ) : (
+                                                    <span className="text-danger fw-semibold ms-2">
+                                                        (Not Available)
+                                                    </span>
+                                                )}
                                             </Card.Text>
                                             <Card.Text>
                                                 <span className="fw-semibold">
@@ -218,7 +267,7 @@ function Cars() {
                                                 </span>
                                             </Card.Text>
                                             <Col className="d-flex gap-2">
-                                                {user.role_id === 1 && (
+                                                {user?.role_id === 1 && (
                                                     <Button
                                                         as={Link}
                                                         href={`/cars/${car.id}`}
@@ -255,12 +304,14 @@ function Cars() {
                                                 <Button
                                                     as={Link}
                                                     href={`/cars/${car.id}`}
-                                                    className="text-white bg-success border border-success fw-semibold d-flex justify-content-center align-content-center"
+                                                    className="text-white fw-semibold d-flex justify-content-center align-content-center"
                                                     style={{
                                                         height: "2.5rem",
                                                         transition: "all 0.3s",
+                                                        color: "#0d6efd",
+                                                        border: "1px solid #0d6efd",
                                                         width:
-                                                            user.role_id === 1
+                                                            user?.role_id === 1
                                                                 ? "50%"
                                                                 : "100%",
                                                     }}
