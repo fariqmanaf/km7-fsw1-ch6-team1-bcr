@@ -4,28 +4,28 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { deleteSpec, getDetailSpec } from "../../service/spec";
+import { deleteoption, getDetailOption } from "../../service/options";
 import { toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert";
 
-export const Route = createLazyFileRoute("/specs/$id")({
-  component: SpecDetail,
+export const Route = createLazyFileRoute("/options/$id")({
+  component: OptionDetail,
 });
 
-function SpecDetail() {
+function OptionDetail() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
 
-  const [spec, setSpec] = useState(null);
+  const [option, setOption] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isNotFound, setIsNotFound] = useState(false);
 
   useEffect(() => {
-    const getDetailSpecData = async (id) => {
+    const getDetailOptionData = async (id) => {
       setIsLoading(true);
-      const result = await getDetailSpec(id);
+      const result = await getDetailOption(id);
       if (result?.success) {
-        setSpec(result.data);
+        setOption(result.data);
         setIsNotFound(false);
       } else {
         setIsNotFound(true);
@@ -34,7 +34,7 @@ function SpecDetail() {
     };
 
     if (id) {
-      getDetailSpecData(id);
+      getDetailOptionData(id);
     }
   }, [id]);
 
@@ -52,7 +52,7 @@ function SpecDetail() {
     return (
       <Row className="mt-5">
         <Col>
-          <h1 className="text-center">Spec is not found!</h1>
+          <h1 className="text-center">Option is not found!</h1>
         </Col>
       </Row>
     );
@@ -68,9 +68,9 @@ function SpecDetail() {
         {
           label: "Yes",
           onClick: async () => {
-            const result = await deleteSpec(id);
+            const result = await deleteoption(id);
             if (result?.success) {
-              navigate({ to: "/spec" });
+              navigate({ to: "/options" });
               return;
             }
 
@@ -90,17 +90,16 @@ function SpecDetail() {
       <Col className="offset-md-3">
         <Card>
           <Card.Body>
-
-            <Card.Title>{spec?.name}</Card.Title>
-            <Card.Text>{spec?.description}</Card.Text>
+            <Card.Title>Detail </Card.Title>
+            <Card.Text>Option: {option?.option}</Card.Text>
             <div className="d-grid gap-2">
-              <Button as={Link} href={`/specs/edit/${id}`} variant="primary">
-                Edit Spec
+              <Button as={Link} href={`/options/edit/${id}`} variant="primary">
+                Edit Option
               </Button>
             </div>
             <div className="d-grid gap-2">
               <Button onClick={onDelete} variant="danger">
-                Delete Spec
+                Delete Option
               </Button>
             </div>
           </Card.Body>

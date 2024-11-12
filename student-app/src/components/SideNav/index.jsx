@@ -2,7 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import Image from "react-bootstrap/Image";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { setToken, setUser } from "../../redux/slices/auth";
 import { profile } from "../../service/auth";
 import PropTypes from "prop-types";
@@ -31,7 +31,6 @@ const SideNavigationBar = () => {
     }
   }, [dispatch, navigate, token]);
 
-
   return (
     <div
       className="d-flex flex-column flex-shrink-0 bg-light"
@@ -47,7 +46,7 @@ const SideNavigationBar = () => {
       </Link>
       <ul className="nav nav-pills nav-flush flex-column mb-auto text-center">
         <li>
-          <Link to="/car" className="nav-link py-3 border-bottom" title="Car">
+          <Link to="/cars" className="nav-link py-3 border-bottom" title="Car">
             <Image
               src="/src/assets/images/Car.png"
               alt="Car Icon"
@@ -58,7 +57,7 @@ const SideNavigationBar = () => {
         </li>
         <li>
           <Link
-            to="/manufacture"
+            to="/manufactures"
             className="nav-link py-3 border-bottom"
             title="Manufacture"
           >
@@ -71,7 +70,11 @@ const SideNavigationBar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/specs" className="nav-link py-3 border-bottom" title="Spec">
+          <Link
+            to="/specs"
+            className="nav-link py-3 border-bottom"
+            title="Spec"
+          >
             <Image
               src="/src/assets/images/Spec.png"
               alt="Spec Icon"
@@ -82,7 +85,7 @@ const SideNavigationBar = () => {
         </li>
         <li>
           <Link
-            to="/option"
+            to="/options"
             className="nav-link py-3 border-bottom"
             title="Option"
           >
