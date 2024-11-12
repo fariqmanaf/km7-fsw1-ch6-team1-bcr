@@ -90,6 +90,14 @@ const CarsIndexLazyRoute = CarsIndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import("./routes/cars/index.lazy").then((d) => d.Route));
 
+const SpecscopyIndexLazyRoute = SpecscopyIndexLazyImport.update({
+  id: '/specs copy/',
+  path: '/specs copy/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/specs copy/index.lazy').then((d) => d.Route),
+)
+
 const SpecsCreateLazyRoute = SpecsCreateLazyImport.update({
   id: "/specs/create",
   path: "/specs/create",
@@ -132,6 +140,22 @@ const ManufacturesIdLazyRoute = ManufacturesIdLazyImport.update({
   import("./routes/manufactures/$id.lazy").then((d) => d.Route)
 );
 
+const SpecscopyCreateLazyRoute = SpecscopyCreateLazyImport.update({
+  id: '/specs copy/create',
+  path: '/specs copy/create',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/specs copy/create.lazy').then((d) => d.Route),
+)
+
+const SpecscopyIdLazyRoute = SpecscopyIdLazyImport.update({
+  id: '/specs copy/$id',
+  path: '/specs copy/$id',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/specs copy/$id.lazy').then((d) => d.Route),
+)
+
 const SpecsEditIdLazyRoute = SpecsEditIdLazyImport.update({
   id: "/specs/edit/$id",
   path: "/specs/edit/$id",
@@ -156,10 +180,19 @@ const ManufacturesEditIdLazyRoute = ManufacturesEditIdLazyImport.update({
   import("./routes/manufactures/edit/$id.lazy").then((d) => d.Route)
 );
 
+const SpecscopyEditIdLazyRoute = SpecscopyEditIdLazyImport.update({
+  id: '/specs copy/edit/$id',
+  path: '/specs copy/edit/$id',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/specs copy/edit/$id.lazy').then((d) => d.Route),
+)
+
 // Populate the FileRoutesByPath interface
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
+
     "/": {
       id: "/";
       path: "/";
@@ -291,6 +324,7 @@ declare module "@tanstack/react-router" {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
+
   "/": typeof IndexLazyRoute;
   "/login": typeof LoginLazyRoute;
   "/profile": typeof ProfileLazyRoute;
@@ -354,6 +388,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
+
     | "/"
     | "/login"
     | "/profile"
@@ -433,6 +468,7 @@ export interface RootRouteChildren {
   ManufacturesEditIdLazyRoute: typeof ManufacturesEditIdLazyRoute;
   OptionsEditIdLazyRoute: typeof OptionsEditIdLazyRoute;
   SpecsEditIdLazyRoute: typeof SpecsEditIdLazyRoute;
+
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -440,6 +476,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginLazyRoute: LoginLazyRoute,
   ProfileLazyRoute: ProfileLazyRoute,
   RegisterLazyRoute: RegisterLazyRoute,
+
   ManufacturesIdLazyRoute: ManufacturesIdLazyRoute,
   ManufacturesCreateLazyRoute: ManufacturesCreateLazyRoute,
   OptionsIdLazyRoute: OptionsIdLazyRoute,
@@ -455,6 +492,7 @@ const rootRouteChildren: RootRouteChildren = {
   SpecsIndexLazyRoute: SpecsIndexLazyRoute,
   ManufacturesEditIdLazyRoute: ManufacturesEditIdLazyRoute,
   OptionsEditIdLazyRoute: OptionsEditIdLazyRoute,
+
   SpecsEditIdLazyRoute: SpecsEditIdLazyRoute,
 };
 
@@ -472,6 +510,7 @@ export const routeTree = rootRoute
         "/login",
         "/profile",
         "/register",
+
         "/manufactures/$id",
         "/manufactures/create",
         "/options/$id",
@@ -487,6 +526,7 @@ export const routeTree = rootRoute
         "/specs/",
         "/manufactures/edit/$id",
         "/options/edit/$id",
+
         "/specs/edit/$id"
       ]
     },
@@ -502,6 +542,7 @@ export const routeTree = rootRoute
     "/register": {
       "filePath": "register.lazy.jsx"
     },
+
     "/manufactures/$id": {
       "filePath": "manufactures/$id.lazy.jsx"
     },
@@ -513,6 +554,7 @@ export const routeTree = rootRoute
     },
     "/options/create": {
       "filePath": "options/create.lazy.jsx"
+
     },
     "/specs/$id": {
       "filePath": "specs/$id.lazy.jsx"
@@ -520,6 +562,7 @@ export const routeTree = rootRoute
     "/specs/create": {
       "filePath": "specs/create.lazy.jsx"
     },
+
     "/manufactures/": {
       "filePath": "manufactures/index.lazy.jsx"
     },
@@ -536,9 +579,13 @@ export const routeTree = rootRoute
     },
     "/options/edit/$id": {
       "filePath": "options/edit/$id.lazy.jsx"
+
     },
     "/specs/": {
       "filePath": "specs/index.lazy.jsx"
+    },
+    "/specs copy/edit/$id": {
+      "filePath": "specs copy/edit/$id.lazy.jsx"
     },
     "/specs/edit/$id": {
       "filePath": "specs/edit/$id.lazy.jsx"
