@@ -40,7 +40,7 @@ function Login() {
     const result = await login(body);
     if (result.success) {
       dispatch(setToken(result.data.token));
-      navigate({ to: "/" });
+      navigate({ to: "/cars" });
       return;
     }
 
