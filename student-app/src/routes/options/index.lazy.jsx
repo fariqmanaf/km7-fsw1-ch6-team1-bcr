@@ -53,7 +53,7 @@ function Option() {
   return (
     <Row className="mt-4">
       <Row>
-        <Col className="d-flex justify-content-end mb-3">
+        <Col className="d-flex justify-content-end mb-3 me-5">
           <Button as={Link} href={`/options/create`} variant="primary">
             Create Option
           </Button>
@@ -62,20 +62,22 @@ function Option() {
       {options.length === 0 ? (
         <h1>Spec data is not found!</h1>
       ) : (
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Id Option</th>
-              <th>Option</th>
-              <th>Options</th>
-            </tr>
-          </thead>
-          <tbody>
-            {options.map((option) => (
-              <OptionItem user={user} option={option} key={option?.id} />
-            ))}
-          </tbody>
-        </Table>
+        <Col md={5} lg={11} className="mx-auto">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th className="text-center">ID</th>
+                <th className="text-center">Manufacture</th>
+                <th className="text-center">Options</th>
+              </tr>
+            </thead>
+            <tbody className="text-center">
+              {options.map((option) => (
+                <OptionItem user={user} option={option} key={option?.id} />
+              ))}
+            </tbody>
+          </Table>
+        </Col>
       )}
     </Row>
   );
