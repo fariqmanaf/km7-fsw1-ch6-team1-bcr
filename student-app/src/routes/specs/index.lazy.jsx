@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { getSpecs } from "../../service/spec";
-import SpecItem from "../../components/Spec/specItem";
+import SpecItem from "../../components/Spec/SpecItem";
 import ReactLoading from "react-loading";
 
 export const Route = createLazyFileRoute("/specs/")({
