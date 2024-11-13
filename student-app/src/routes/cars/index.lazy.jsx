@@ -143,11 +143,13 @@ function Cars() {
                 {
                     label: "Yes",
                     onClick: async () => {
+                        setIsLoading(true);
                         const result = await deleteCar(id);
                         if (result.success) {
                             const newCars = cars.filter((car) => car.id !== id);
                             setCars(newCars);
                             setFilteredCars(newCars);
+                            setIsLoading(false);
                             toast.success("Car deleted successfully!");
                             return;
                         }
