@@ -40,7 +40,9 @@ function Manufacture() {
         className="d-flex justify-content-center align-items-center"
       >
         <Col>
-          <h4 className="text-center">Please login first to get manufactures data!</h4>
+          <h4 className="text-center">
+            Please login first to get manufactures data!
+          </h4>
         </Col>
       </Row>
     );
@@ -99,9 +101,7 @@ function Manufacture() {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th style={{ textAlign: "center", width: "8%" }}>
-                Id Manufacture
-              </th>
+              <th style={{ textAlign: "center", width: "8%" }}>Id</th>
               <th style={{ textAlign: "center", width: "72%" }}>Manufacture</th>
               {user && user?.role_id === 1 && (
                 <th style={{ textAlign: "center", width: "20%" }}>

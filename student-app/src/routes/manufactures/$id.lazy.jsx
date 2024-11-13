@@ -105,7 +105,6 @@ function ManufactureDetail() {
     navigate({ to: "/specs" });
   }
 
-
   return (
     <Row
       className="d-flex flex justify-content-center align-items-center"
@@ -127,7 +126,7 @@ function ManufactureDetail() {
         <Col className="offset-md-3">
           <Card>
             <Card.Body>
-              <h4 className="mb-4 text-center fw-bold">Delete Specs</h4>
+              <h4 className="mb-4 text-center fw-bold">Delete Manufactures</h4>
               <Card.Title>Detail</Card.Title>
               <Card.Text>Manufacture : {manufacture?.name}</Card.Text>
               <div className="d-grid gap-2">
