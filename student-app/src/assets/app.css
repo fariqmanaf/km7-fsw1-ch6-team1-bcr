@@ -9,6 +9,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Transparansi untuk overlay */
+  z-index: 1050; /* Pastikan ini cukup tinggi */
 }
 
 .react-confirm-alert {
@@ -19,8 +26,10 @@
   padding: 20px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
   text-align: center;
+  z-index: 1060; /* Agar lebih tinggi dari overlay */
 }
 
+/* Atur heading dan paragraph untuk teks notifikasi */
 .react-confirm-alert h1 {
   font-size: 1.5rem;
   color: #333;
@@ -65,6 +74,4 @@
 .react-confirm-alert-button-group button:last-child:hover {
   background-color: #b0b0b0;
 }
-
-/* css confirmAlert end */
-
+/* CSS confirmAlert end */
