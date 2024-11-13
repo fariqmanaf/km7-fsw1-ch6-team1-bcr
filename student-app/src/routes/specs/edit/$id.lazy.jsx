@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 import { getDetailSpec, updateSpec } from "../../../service/spec";
 import { toast } from "react-toastify";
 import { IoArrowBackCircle } from "react-icons/io5";
-import Protected from "../../components/Auth/Protected";
+import Protected from "../../../components/Auth/Protected";
 
 export const Route = createLazyFileRoute("/specs/edit/$id")({
   component: () => (

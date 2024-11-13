@@ -11,7 +11,7 @@ import {
 } from "../../../service/manufactures";
 import { toast } from "react-toastify";
 import { IoArrowBackCircle } from "react-icons/io5";
-import Protected from "../../components/Auth/Protected";
+import Protected from "../../../components/Auth/Protected";
 
 export const Route = createLazyFileRoute("/manufactures/edit/$id")({
   component: () => (

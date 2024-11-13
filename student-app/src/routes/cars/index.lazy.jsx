@@ -10,14 +10,18 @@ import { getCars, deleteCar } from "../../service/cars";
 import { IoCarSharp } from "react-icons/io5";
 import ReactLoading from "react-loading";
 import gsap from "gsap";
-import {
-    setDetailsCar,
-    setAvailabilityState,
-} from "../../redux/slices/car_details";
+
 import { setSuccess } from "../../redux/slices/success";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { toast } from "react-toastify";
+import {
+    setDetailsCar,
+    setAvailabilityState,
+    setModelsState,
+    setOptionsState,
+    setSpecsState,
+} from "../../redux/slices/car_details";
 
 export const Route = createLazyFileRoute("/cars/")({
     component: Cars,
@@ -34,11 +38,11 @@ function Cars() {
 
     const token = useSelector((state) => state.auth.token);
     const success = useSelector((state) => state.success.success);
+    const user = useSelector((state) => state.auth.user);
 
     const [cars, setCars] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const user = useSelector((state) => state.auth.user);
     const [selectedTransmission, setSelectedTransmission] = useState("all");
 
     useLayoutEffect(() => {
@@ -52,6 +56,14 @@ function Cars() {
                 ease: "power2.out",
             });
         }, containerRef);
+    }, [isLoading]);
+
+    useEffect(() => {
+        dispatch(setDetailsCar(null));
+        dispatch(setAvailabilityState(null));
+        dispatch(setModelsState(null));
+        dispatch(setOptionsState(null));
+        dispatch(setSpecsState(null));
     }, [isLoading]);
 
     useEffect(() => {
