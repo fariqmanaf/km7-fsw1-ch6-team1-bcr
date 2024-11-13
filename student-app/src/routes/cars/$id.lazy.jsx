@@ -18,7 +18,6 @@ import {
 import gsap from "gsap";
 import { getManufactures } from "../../service/manufactures";
 import { setSuccess } from "../../redux/slices/success";
-import Protected from "../../components/Auth/Protected";
 
 export const Route = createLazyFileRoute("/cars/$id")({
   component: DetailsCar,
