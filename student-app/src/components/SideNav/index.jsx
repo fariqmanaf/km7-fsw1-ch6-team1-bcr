@@ -49,8 +49,7 @@ const SideNavigationBar = () => {
           />
           <span className="visually-hidden">Icon-only</span>
         </Link>
-        <ul className="nav nav-flush flex-column mb-auto text-center">
-          {/* className="nav nav-pills nav-flush flex-column mb-auto text-center" */}
+        <ul className="nav nav-pills nav-flush flex-column mb-auto text-center">
           <li>
             <Link
               to="/cars"

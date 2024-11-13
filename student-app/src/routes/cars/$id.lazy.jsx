@@ -21,11 +21,7 @@ import { setSuccess } from "../../redux/slices/success";
 import Protected from "../../components/Auth/Protected";
 
 export const Route = createLazyFileRoute("/cars/$id")({
-  component: () => (
-    <Protected roles={[1]}>
-      <DetailsCar />
-    </Protected>
-  ),
+  component: DetailsCar,
 });
 
 function DetailsCar() {

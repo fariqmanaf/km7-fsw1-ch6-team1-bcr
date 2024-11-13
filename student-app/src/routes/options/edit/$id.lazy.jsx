@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 import { getDetailOption, updateOption } from "../../../service/options";
 import { toast } from "react-toastify";
 import { IoArrowBackCircle } from "react-icons/io5";
-import Protected from "../../components/Auth/Protected";
+import Protected from "../../../components/Auth/Protected";
 
 export const Route = createLazyFileRoute("/options/edit/$id")({
   component: () => (

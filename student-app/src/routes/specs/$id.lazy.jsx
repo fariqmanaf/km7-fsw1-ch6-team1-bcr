@@ -83,7 +83,7 @@ function SpecDetail() {
           onClick: async () => {
             const result = await deleteSpec(id);
             if (result?.success) {
-              navigate({ to: "/spec" });
+              navigate({ to: "/specs" });
               return;
             }
 
