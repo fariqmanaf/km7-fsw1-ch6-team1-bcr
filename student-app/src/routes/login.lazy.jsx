@@ -23,16 +23,14 @@ function Login() {
     const [password, setPassword] = useState("");
 
     useEffect(() => {
-        // get token from local storage
         if (token) {
-            navigate({ to: "/" });
+            navigate({ to: "/cars" });
         }
     }, [navigate, token]);
 
     const onSubmit = async (event) => {
         event.preventDefault();
 
-        /* hit the login API */
         const body = {
             email,
             password,
@@ -60,7 +58,7 @@ function Login() {
                         alt="Pict"
                         style={{
                             width: "100%",
-                            height: "100vh", // Full viewport height
+                            height: "100vh", 
                             objectFit: "cover",
                             margin: 0,
                             padding: 0,
